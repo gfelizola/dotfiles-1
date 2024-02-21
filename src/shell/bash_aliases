@@ -7,6 +7,18 @@ alias cd..="cd .."
 alias la="ls -la"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Short Git
+
+alias gs="git status"
+alias gp="git pull"
+alias gpo="git push origin"
+alias gps="git push"
+alias gco="git checkout"
+alias gcb="git checkout -b"
+alias gca="git ca"
+alias gcm="git ca -m"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 alias cp="cp -iv"
 #             │└─ list copied files
