@@ -86,7 +86,8 @@ main() {
         && change_default_bash
 
     brew_install "Bash Completion 2" "bash-completion@2"
-
+    brew_install "Starship" "starship"
+    brew_install "Warp.dev" "warp"
 }
 
 main

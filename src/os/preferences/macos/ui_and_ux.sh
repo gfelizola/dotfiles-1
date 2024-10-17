@@ -11,8 +11,8 @@ execute "defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool
          defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true" \
    "Avoid creating '.DS_Store' files on network or USB volumes"
 
-execute "defaults write com.apple.menuextra.battery ShowPercent -string 'YES'" \
-    "Hide battery percentage from the menu bar"
+execute "defaults write com.apple.menuextra.battery ShowPercent -string 'NO'" \
+    "Show battery percentage from the menu bar"
 
 execute "sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true" \
     "Show language menu in the top right corner of the boot screen"
@@ -39,8 +39,8 @@ execute "defaults write com.apple.screencapture type -string 'png'" \
     "Save screenshots as PNGs"
 
 execute "defaults write com.apple.screensaver askForPassword -int 1 && \
-         defaults write com.apple.screensaver askForPasswordDelay -int 0"\
-    "Require password immediately after into sleep or screen saver mode"
+         defaults write com.apple.screensaver askForPasswordDelay -int 5"\
+    "Require password after 5 minutes into sleep or screen saver mode"
 
 execute "defaults write -g AppleFontSmoothing -int 2" \
     "Enable subpixel font rendering on non-Apple LCDs"

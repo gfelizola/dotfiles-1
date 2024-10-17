@@ -20,10 +20,12 @@ brew_install "Visual Studio Code" "visual-studio-code" "--cask"
 printf "\n"
 
 # Install the VSCode plugins
-install_plugin "EditorConfig" "EditorConfig.EditorConfig"
-install_plugin "File Icons" "vscode-icons-team.vscode-icons"
-install_plugin "MarkdownLint" "DavidAnson.vscode-markdownlint"
-install_plugin "Vim" "vscodevim.vim"
+# install_plugin "EditorConfig" "EditorConfig.EditorConfig"
+# install_plugin "File Icons" "vscode-icons-team.vscode-icons"
+# install_plugin "MarkdownLint" "DavidAnson.vscode-markdownlint"
+# install_plugin "Vim" "vscodevim.vim"
+printf "jump installation of VSCode plugins - (install via user sync in app)"
+printf "\n"
 
 # Close VSCode
 osascript -e 'quit app "Visual Studio Code"'

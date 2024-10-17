@@ -5,3 +5,7 @@
 # Load OS specific configs.
 
 . "$OS/bash_init"
+
+
+# Start starship
+eval "$(starship init bash)"

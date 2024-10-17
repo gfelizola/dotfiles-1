@@ -13,7 +13,7 @@ execute "defaults write -g AppleKeyboardUIMode -int 3" \
 execute "defaults write -g ApplePressAndHoldEnabled -bool false" \
     "Disable press-and-hold in favor of key repeat"
 
-execute "defaults write -g 'InitialKeyRepeat_Level_Saved' -int 10" \
+execute "defaults write -g 'InitialKeyRepeat_Level_Saved' -int 2" \
     "Set delay until repeat"
 
 execute "defaults write -g KeyRepeat -int 1" \

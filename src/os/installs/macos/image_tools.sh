@@ -8,6 +8,10 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Image Tools\n\n"
 
-brew_install "ImageMagick" "imagemagick"
-brew_install "ImageOptim" "imageoptim" "--cask"
-brew_install "pngquant" "pngquant"
+# brew_install "ImageMagick" "imagemagick"
+# brew_install "ImageOptim" "imageoptim" "--cask"
+# brew_install "pngquant" "pngquant"
+brew_install "inkscape" "inkscape"
+
+printf "jump installation of Image Tools"
+printf "\n"
