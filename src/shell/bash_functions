@@ -173,8 +173,19 @@ rename-media-files() (
         #   * IMG_1234.PNG => 2020-05-05 05.05.05.png
 
         if [[ "$fileName" =~ ^img_[0-9]+ ]]; then
-           mv -f "$1" "$filePath/$(stat -f %SB -t "%Y-%m-%d %H.%M.%S" "$1").$fileExtension"
-           return
+            newFileName="$(stat -f %SB -t "%Y-%m-%d %H.%M.%S" "$1")"
+
+            # Handle the cases where multiple files have the same
+            # creation date.
+
+            index="$(find "$filePath" -maxdepth 1 -name "${newFileName}*" | wc -l |  tr -d ' ')"
+
+            if [ "$index" -gt 0 ]; then
+                newFileName="$newFileName $index"
+            fi
+
+            mv "$1" "$filePath/$newFileName.$fileExtension"
+            return
         fi
 
         # Other
@@ -281,7 +292,7 @@ resize-image() {
 # $1: Path to the original video file.
 # $2: Resolution (default is '1920:1080').
 # $3: Start time (default is '00:00:00').
-# $4: Constant Rate Factor (default is '25').
+# $4: Constant Rate Factor (default is '23').
 #
 # Usage examples:
 #
@@ -311,7 +322,7 @@ resize-video() {
     declare filePath="$(dirname "${1%/}")"
     declare scale="${2:-1920:1080}"
     declare startTime=${3:-00:00:00}
-    declare crf=${4:-25}
+    declare crf=${4:-23}
 
     declare outputFileName="$filePath/_${fileName%.*}.mp4"
 
