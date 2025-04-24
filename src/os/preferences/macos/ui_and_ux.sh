@@ -75,10 +75,10 @@ execute "defaults write -g QLPanelAnimationDuration -float 0.5" \
 execute "defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false" \
     "Disable resume system-wide"
 
-execute "sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string 'Gustavo Macbook Air M2' && \
-         sudo scutil --set ComputerName 'Gustavo Macbook Air M2' && \
-         sudo scutil --set HostName 'Gustavo Macbook Air M2' && \
-         sudo scutil --set LocalHostName 'Gustavo Macbook Air M2'" \
+execute "sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string 'gfelizola-macbook' && \
+         sudo scutil --set ComputerName 'gfelizola-macbook' && \
+         sudo scutil --set HostName 'gfelizola-macbook' && \
+         sudo scutil --set LocalHostName 'gfelizola-macbook'" \
     "Set computer name"
 
 execute "sudo systemsetup -setrestartfreeze on" \
