@@ -24,6 +24,10 @@ install_node() {
 
     # Install Node.js LTS.
     # Note: This will also set it as the default.
+    #
+    # Do not `volta install yarn`, bun, or pnpm. Volta's Yarn shim is
+    # broken. Node stays here. Bun is the official installer and pnpm
+    # is Homebrew's keg-only pnpm@10.
 
     execute "volta install node" \
         "Install Node.js LTS"

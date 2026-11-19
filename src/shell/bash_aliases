@@ -49,7 +49,9 @@ alias p="cd ~/projects"
 alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q="exit"
 alias t="tmux"
-alias y="yarn"
+
+# Yarn is not installed. Volta's Yarn shim is broken; use bun or pnpm.
+# alias y="yarn"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -58,7 +60,20 @@ alias y="yarn"
 alias dev="npm run dev"
 alias bd="bun dev"
 alias br="bun run"
-alias dev="bun run deploy"
+alias bx="bunx"
+alias gt="git tag"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Projects disk. Same path as the owner's alias; PROJECTS_DIR overrides it.
+alias pp='cd "${PROJECTS_DIR:-/Volumes/ADATA-GFELIZOLA/projects/}"'
+
+# Open the current directory in Cursor.
+alias cs="cursor ."
+
+alias pmd="npx prisma migrate deploy"
+alias pg="npx prisma generate"
+alias pmdg="npx prisma migrate deploy && npx prisma generate"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -5,3 +5,53 @@
 # Load OS specific configs.
 
 . "$OS/bash_autocompletion"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Dart / Flutter tab completion.
+#
+# Source ~/.dart-cli-completion/dart-completion.bash when a Dart tool
+# has written it. Flutter's own script is generated once, the first
+# time `flutter` is on PATH, and reused after that. A failed attempt
+# is recorded so later shells do not pay Flutter's startup cost again.
+
+load_dart_completion() {
+
+    local completion_dir="${HOME}/.dart-cli-completion"
+    local dart_script="${completion_dir}/dart-completion.bash"
+    local flutter_script="${completion_dir}/flutter-completion.bash"
+    local flutter_stamp="${completion_dir}/.flutter-completion-failed"
+    local generated=""
+
+    if [ -r "$dart_script" ]; then
+        # shellcheck disable=SC1090
+        . "$dart_script"
+    fi
+
+    if [ -r "$flutter_script" ]; then
+        # shellcheck disable=SC1090
+        . "$flutter_script"
+        return 0
+    fi
+
+    if ! command -v flutter &> /dev/null || [ -e "$flutter_stamp" ]; then
+        return 0
+    fi
+
+    generated="$(flutter bash-completion 2> /dev/null || true)"
+
+    mkdir -p "$completion_dir"
+
+    if ! printf '%s' "$generated" | grep -q 'complete'; then
+        touch "$flutter_stamp"
+        return 0
+    fi
+
+    printf '%s\n' "$generated" > "$flutter_script"
+    # shellcheck disable=SC1090
+    . "$flutter_script"
+
+}
+
+load_dart_completion
+unset -f load_dart_completion

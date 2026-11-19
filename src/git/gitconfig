@@ -303,7 +303,13 @@
 
 [include]
 
-    # Load local configs.
+    # Load machine-local config. This file stays portable: no
+    # user.name / user.email, no [safe] directory list, no
+    # http.postBuffer / http.version, and no credential.helper
+    # pointing at a local binary such as ~/.local/bin/origin.
+    # Those belong in ~/.gitconfig.local (see
+    # src/os/create_local_config_files.sh).
+    #
     # https://git-scm.com/docs/git-config#_includes
     #
     # [!] The following needs to remain at the end of this file in
