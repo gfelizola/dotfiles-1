@@ -114,26 +114,36 @@ alias g="git"
 
 #### `~/.gitconfig.local`
 
-The `~/.gitconfig.local` file will be automatically included after
-the configurations from `~/.gitconfig`, thus, allowing its content
-to overwrite or add to the existing Git configurations.
+[`src/git/gitconfig`](src/git/gitconfig) ends with
+`include.path = ~/.gitconfig.local`. Setup creates that file from
+[`create_local_config_files.sh`](src/os/create_local_config_files.sh)
+when it is missing. It is not committed. Local settings load after
+the shared ones, so they can add to or override them.
 
-__Note:__ Use `~/.gitconfig.local` to store sensitive information
-such as the Git user credentials, e.g.:
+The committed Git config is portable personal config only. Put
+machine-specific settings in `~/.gitconfig.local`:
+
+* `user.name` and `user.email` (`user.useConfigOnly` is on, and no
+  global identity is stored in the repository)
+* `[safe] directory` entries, including a self-hosted GitHub Actions
+  runner checkout
+* `http.postBuffer` and `http.version`
+* a `credential.helper` that points at a local binary, such as
+  `~/.local/bin/origin`
+
+Per-folder identities use `includeIf "gitdir:"`. The template has
+commented examples for a personal GitHub identity and a work Trino
+identity. Fill those in on the machine. Do not commit real addresses.
 
 ```gitconfig
-[commit]
-
-    # Sign commits using GPG.
-    # https://help.github.com/articles/signing-commits-using-gpg/
-
-    gpgSign = true
-
 [user]
 
     name = Your Name
-    email = account@example.com
-    signingKey = XXXXXXXX
+    email = personal@example.com
+
+# Work checkouts (Trino). The included file holds that identity.
+# [includeIf "gitdir:~/projects/trino/"]
+#     path = ~/.gitconfig.work
 ```
 
 #### `~/.vimrc.local`

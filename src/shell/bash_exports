@@ -46,6 +46,23 @@ export HISTSIZE=10000
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# User-installed CLIs (cursor-agent, Claude Code, and similar).
+# Added once, here. ~/.bashrc only sources ~/.bash_profile for
+# interactive shells, so this must not also be appended from
+# ~/.bashrc or ~/.bash_profile.
+
+if [ -d "${HOME}/.local/bin" ]; then
+    case ":${PATH}:" in
+        *":${HOME}/.local/bin:"*) ;;
+        *)
+            PATH="${HOME}/.local/bin:${PATH}"
+            export PATH
+            ;;
+    esac
+fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 # Prefer US English and use UTF-8 encoding.
 
 export LANG="en_US"

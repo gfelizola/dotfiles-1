@@ -28,3 +28,20 @@ unset -f set_homebrew
 # https://docs.brew.sh/Manpage#environment
 
 export HOMEBREW_NO_AUTO_UPDATE=1
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# php@8.3 is keg-only, so Homebrew does not link it into PATH.
+# `brew shellenv` above sets HOMEBREW_PREFIX (/opt/homebrew on Apple
+# silicon, /usr/local on Intel). Skip the prepend when the formula
+# is not installed.
+
+if [ -n "${HOMEBREW_PREFIX:-}" ] && [ -d "${HOMEBREW_PREFIX}/opt/php@8.3/bin" ]; then
+    if [ -d "${HOMEBREW_PREFIX}/opt/php@8.3/sbin" ]; then
+        PATH="${HOMEBREW_PREFIX}/opt/php@8.3/sbin:${PATH}"
+    fi
+
+    # bin stays in front of sbin.
+    PATH="${HOMEBREW_PREFIX}/opt/php@8.3/bin:${PATH}"
+    export PATH
+fi

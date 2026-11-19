@@ -1,0 +1,85 @@
+# Vim plugins tracked as gitlinks under src/vim/vim/pack/minpac.
+# URLs match the minpac#add() entries in src/vim/vimrc.
+# rainbow_levels.vim is vendored as normal files and is not a submodule.
+
+[submodule "src/vim/vim/pack/minpac/opt/minpac"]
+	path = src/vim/vim/pack/minpac/opt/minpac
+	url = https://github.com/k-takata/minpac.git
+[submodule "src/vim/vim/pack/minpac/opt/vim-polyglot"]
+	path = src/vim/vim/pack/minpac/opt/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot.git
+[submodule "src/vim/vim/pack/minpac/opt/webapi-vim"]
+	path = src/vim/vim/pack/minpac/opt/webapi-vim
+	url = https://github.com/mattn/webapi-vim.git
+[submodule "src/vim/vim/pack/minpac/start/ctrlp.vim"]
+	path = src/vim/vim/pack/minpac/start/ctrlp.vim
+	url = https://github.com/ctrlpvim/ctrlp.vim.git
+[submodule "src/vim/vim/pack/minpac/start/delimitmate"]
+	path = src/vim/vim/pack/minpac/start/delimitmate
+	url = https://github.com/raimondi/delimitmate.git
+[submodule "src/vim/vim/pack/minpac/start/emmet-vim"]
+	path = src/vim/vim/pack/minpac/start/emmet-vim
+	url = https://github.com/mattn/emmet-vim.git
+[submodule "src/vim/vim/pack/minpac/start/nerdtree"]
+	path = src/vim/vim/pack/minpac/start/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "src/vim/vim/pack/minpac/start/syntastic"]
+	path = src/vim/vim/pack/minpac/start/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "src/vim/vim/pack/minpac/start/syntastic-local-eslint.vim"]
+	path = src/vim/vim/pack/minpac/start/syntastic-local-eslint.vim
+	url = https://github.com/mtscout6/syntastic-local-eslint.vim.git
+[submodule "src/vim/vim/pack/minpac/start/tabular"]
+	path = src/vim/vim/pack/minpac/start/tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule "src/vim/vim/pack/minpac/start/targets.vim"]
+	path = src/vim/vim/pack/minpac/start/targets.vim
+	url = https://github.com/wellle/targets.vim.git
+[submodule "src/vim/vim/pack/minpac/start/tcomment_vim"]
+	path = src/vim/vim/pack/minpac/start/tcomment_vim
+	url = https://github.com/tomtom/tcomment_vim.git
+[submodule "src/vim/vim/pack/minpac/start/tern_for_vim"]
+	path = src/vim/vim/pack/minpac/start/tern_for_vim
+	url = https://github.com/marijnh/tern_for_vim.git
+[submodule "src/vim/vim/pack/minpac/start/unicode.vim"]
+	path = src/vim/vim/pack/minpac/start/unicode.vim
+	url = https://github.com/chrisbra/unicode.vim.git
+[submodule "src/vim/vim/pack/minpac/start/vim-colors-solarized"]
+	path = src/vim/vim/pack/minpac/start/vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "src/vim/vim/pack/minpac/start/vim-commentary"]
+	path = src/vim/vim/pack/minpac/start/vim-commentary
+	url = https://github.com/tpope/vim-commentary.git
+[submodule "src/vim/vim/pack/minpac/start/vim-css-color"]
+	path = src/vim/vim/pack/minpac/start/vim-css-color
+	url = https://github.com/ap/vim-css-color.git
+[submodule "src/vim/vim/pack/minpac/start/vim-es6"]
+	path = src/vim/vim/pack/minpac/start/vim-es6
+	url = https://github.com/isRuslan/vim-es6.git
+[submodule "src/vim/vim/pack/minpac/start/vim-fugitive"]
+	path = src/vim/vim/pack/minpac/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "src/vim/vim/pack/minpac/start/vim-indent-guides"]
+	path = src/vim/vim/pack/minpac/start/vim-indent-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides.git
+[submodule "src/vim/vim/pack/minpac/start/vim-javascript-syntax"]
+	path = src/vim/vim/pack/minpac/start/vim-javascript-syntax
+	url = https://github.com/jelera/vim-javascript-syntax.git
+[submodule "src/vim/vim/pack/minpac/start/vim-node"]
+	path = src/vim/vim/pack/minpac/start/vim-node
+	url = https://github.com/moll/vim-node.git
+[submodule "src/vim/vim/pack/minpac/start/vim-repeat"]
+	path = src/vim/vim/pack/minpac/start/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "src/vim/vim/pack/minpac/start/vim-signify"]
+	path = src/vim/vim/pack/minpac/start/vim-signify
+	url = https://github.com/mhinz/vim-signify.git
+[submodule "src/vim/vim/pack/minpac/start/vim-surround"]
+	path = src/vim/vim/pack/minpac/start/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "src/vim/vim/pack/minpac/start/vim-unimpaired"]
+	path = src/vim/vim/pack/minpac/start/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
+[submodule "src/vim/vim/pack/minpac/start/vim-xml-runtime"]
+	path = src/vim/vim/pack/minpac/start/vim-xml-runtime
+	url = https://github.com/chrisbra/vim-xml-runtime.git

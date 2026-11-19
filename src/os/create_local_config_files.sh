@@ -40,8 +40,21 @@ create_gitconfig_local() {
 
     if [ ! -e "$FILE_PATH" ] || [ -z "$FILE_PATH" ]; then
 
-        printf "%s\n" \
-"[commit]
+        cat >> "$FILE_PATH" <<'EOF'
+# Machine-local Git settings. ~/.gitconfig includes this file last and
+# stays portable. Put anything that only belongs on this computer here:
+#
+# [safe]
+#     directory = /path/to/a/checkout
+#
+# [http]
+#     postBuffer = 524288000
+#     version = HTTP/1.1
+#
+# [credential]
+#     helper = ~/.local/bin/origin
+
+[commit]
 
     # Sign commits using GPG.
     # https://help.github.com/articles/signing-commits-using-gpg/
@@ -53,8 +66,31 @@ create_gitconfig_local() {
 
     name =
     email =
-    # signingkey =" \
-        >> "$FILE_PATH"
+    # signingkey =
+
+# Per-folder identities. The shared config sets user.useConfigOnly
+# and does not store a global name or email, so each tree that needs
+# a different identity includes its own file. Paths and addresses
+# below are placeholders. Uncomment a block, point gitdir at a real
+# checkout, and create the included file locally. Do not commit a
+# real email.
+#
+# Personal GitHub identity (~/.gitconfig.personal):
+# [user]
+#     name = Your Name
+#     email = personal@example.com
+#
+# [includeIf "gitdir:~/projects/personal/"]
+#     path = ~/.gitconfig.personal
+#
+# Work identity, Trino (~/.gitconfig.work):
+# [user]
+#     name = Your Name
+#     email = work@example.com
+#
+# [includeIf "gitdir:~/projects/trino/"]
+#     path = ~/.gitconfig.work
+EOF
     fi
 
     print_result $? "$FILE_PATH"

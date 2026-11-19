@@ -24,6 +24,9 @@ install_node() {
 
     # Install Node.js LTS.
     # Note: This will also set it as the default.
+    #
+    # Do not `volta install yarn`. Volta's Yarn shim is broken on this
+    # machine. JavaScript packages are run with Node, bun, and pnpm.
 
     execute "volta install node" \
         "Install Node.js LTS"
