@@ -51,15 +51,34 @@ export HISTSIZE=10000
 # interactive shells, so this must not also be appended from
 # ~/.bashrc or ~/.bash_profile.
 
-if [ -d "${HOME}/.local/bin" ]; then
+prepend_path_once() {
+
+    local dir="$1"
+
+    if [ ! -d "$dir" ]; then
+        return 0
+    fi
+
     case ":${PATH}:" in
-        *":${HOME}/.local/bin:"*) ;;
+        *":${dir}:"*) ;;
         *)
-            PATH="${HOME}/.local/bin:${PATH}"
+            PATH="${dir}:${PATH}"
             export PATH
             ;;
     esac
+
+}
+
+prepend_path_once "${HOME}/.local/bin"
+
+# Bun's official installer uses ~/.bun. Set BUN_INSTALL when that
+# directory exists and prepend its bin once.
+if [ -d "${HOME}/.bun" ]; then
+    export BUN_INSTALL="${HOME}/.bun"
 fi
+prepend_path_once "${HOME}/.bun/bin"
+
+unset -f prepend_path_once
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -13,6 +13,9 @@ print_in_purple "\n   Development Tools\n\n"
 brew_install "AWS CLI" "awscli"
 brew_install "Biome" "biome"
 brew_install "PHP 8.3" "php@8.3"
+
+# Composer depends on Homebrew's unversioned `php`. php@8.3 is
+# prepended in bash_init, so the `php` command stays 8.3.
 brew_install "Composer" "composer"
 brew_install ".NET" "dotnet"
 brew_install "MySQL" "mysql"
@@ -25,13 +28,16 @@ brew_install "uv" "uv"
 brew_install "gitleaks" "gitleaks"
 brew_install "Flutter Version Manager" "fvm" "" "leoafarias/fvm"
 
-# Docker Desktop is the cask token `docker-desktop` (formerly `docker`).
-# `docker-completion` is the formula the owner's `brew list` included.
-# Desktop already ships completions; if Homebrew reports a conflict,
-# the formula install fails and the rest of setup continues.
+# pnpm 10.x. The unversioned `pnpm` formula is 12 and conflicts with
+# corepack. This one is keg-only; bash_init prepends its bin. Node
+# stays on Volta, which satisfies pnpm's `node` on PATH.
+brew_install "pnpm 10" "pnpm@10"
 
+# Docker Desktop (cask token `docker-desktop`, formerly `docker`)
+# ships its own shell completions. `docker-completion` is deprecated
+# and link_overwrite's those same paths, so it is not installed.
 brew_install "Docker Desktop" "docker-desktop" "--cask"
-brew_install "Docker Completion" "docker-completion"
+# brew_install "Docker Completion" "docker-completion"
 
 # Casks. Postman was already installed from this file; Warp stays in
 # bash.sh. Neither is repeated here.

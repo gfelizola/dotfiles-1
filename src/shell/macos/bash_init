@@ -45,3 +45,20 @@ if [ -n "${HOMEBREW_PREFIX:-}" ] && [ -d "${HOMEBREW_PREFIX}/opt/php@8.3/bin" ];
     PATH="${HOMEBREW_PREFIX}/opt/php@8.3/bin:${PATH}"
     export PATH
 fi
+
+# libpq and pnpm@10 are keg-only. Prepend them so psql, pg_dump, and
+# pnpm resolve when the formulae are installed. Node for pnpm stays
+# on Volta and is already on PATH.
+
+if [ -n "${HOMEBREW_PREFIX:-}" ]; then
+    for keg_bin in \
+        "${HOMEBREW_PREFIX}/opt/libpq/bin" \
+        "${HOMEBREW_PREFIX}/opt/pnpm@10/bin"
+    do
+        if [ -d "$keg_bin" ]; then
+            PATH="${keg_bin}:${PATH}"
+            export PATH
+        fi
+    done
+    unset keg_bin
+fi
