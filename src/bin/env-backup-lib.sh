@@ -1610,6 +1610,51 @@ env_backup_cmd_import_identity() {
 
 }
 
+env_backup_stdout_file() {
+
+    # fd 3 must already be a duplicate of the original stdout. Calling this
+    # inside a command substitution would make fd 1 a pipe.
+    local work=""
+    local line=""
+    local path=""
+
+    work=$(env_backup_mktmp)
+
+    if [ -e /dev/fd/3 ]; then
+        readlink /dev/fd/3 > "$work/link" 2> /dev/null || true
+        path=$(cat "$work/link" 2> /dev/null || true)
+    fi
+
+    case "$path" in
+        /*)
+            printf '%s\n' "$path"
+            return 0
+            ;;
+    esac
+
+    if command -v lsof > /dev/null 2>&1; then
+        # $$ stays the shell pid inside this function. -d 3 is the
+        # duplicated stdout, which is what macOS needs: /dev/fd is not
+        # a regular file there, so readlink does not see the target.
+        lsof -a -p "$$" -d 3 -F n > "$work/lsof" 2> /dev/null || true
+        while IFS= read -r line || [ -n "$line" ]; do
+            case "$line" in
+                n/*)
+                    path=${line#n}
+                    path=${path%$'\r'}
+                    ;;
+            esac
+        done < "$work/lsof"
+    fi
+
+    case "$path" in
+        /*)
+            printf '%s\n' "$path"
+            ;;
+    esac
+
+}
+
 env_backup_cmd_export_identity() {
 
     local secret=""
@@ -1618,18 +1663,17 @@ env_backup_cmd_export_identity() {
 
     env_backup_need_age
 
-    # Inspect the real stdout. A command substitution would replace fd 1
-    # with a pipe, so duplicate it onto fd 3 first.
-    if [ -f /dev/fd/1 ]; then
-        exec 3>&1
-        stdout_path=$(readlink /dev/fd/3 2> /dev/null || true)
-        exec 3>&-
-        case "$stdout_path" in
-            /*)
-                env_backup_assert_key_not_in_unsafe_place "$stdout_path"
-                ;;
-        esac
-    fi
+    exec 3>&1
+    stdout_path=$(env_backup_stdout_file || true)
+    exec 3>&-
+
+    case "$stdout_path" in
+        ""|/dev/*|pipe:*|socket:*)
+            ;;
+        *)
+            env_backup_assert_key_not_in_unsafe_place "$stdout_path"
+            ;;
+    esac
 
     secret=$(env_backup_load_secret) || env_backup_die "could not load the identity"
     recipient=$(env_backup_public_from_secret "$secret") || env_backup_die "could not derive the public recipient"

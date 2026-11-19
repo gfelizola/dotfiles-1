@@ -48,6 +48,34 @@ file_mode() {
     fi
 }
 
+set_mtime() {
+    local epoch="$1"
+    local gnu=1
+    local file=""
+    local fmt=""
+
+    shift
+    touch -d "@$epoch" "$1" 2> /dev/null || gnu=0
+
+    if [ "$gnu" -eq 1 ]; then
+        shift
+        for file in "$@"; do
+            touch -d "@$epoch" "$file"
+        done
+        return 0
+    fi
+
+    if date -r "$epoch" +%Y%m%d%H%M.%S > /dev/null 2>&1; then
+        fmt=$(date -r "$epoch" +%Y%m%d%H%M.%S)
+    else
+        fmt=$(date -u -d "@$epoch" +%Y%m%d%H%M.%S)
+    fi
+
+    for file in "$@"; do
+        touch -t "$fmt" "$file"
+    done
+}
+
 snapshot_count() {
     find "$ENV_BACKUP_DIR" -maxdepth 1 -type f -name 'dotenv-*.age' | wc -l | tr -d ' '
 }
@@ -237,7 +265,7 @@ ENV_BACKUP_NOW=20261119T120100Z "$BIN" backup > "$BASE/backup-same.log"
 grep -q 'unchanged' "$BASE/backup-same.log" || fail "identical backup should be unchanged"
 [ "$(snapshot_count)" = "1" ] || fail "unchanged backup wrote a snapshot"
 
-touch -d @1000000000 "$PROJ/client/app/.env" 2> /dev/null || touch -t 200109090000 "$PROJ/client/app/.env"
+set_mtime 1000000000 "$PROJ/client/app/.env"
 ENV_BACKUP_NOW=20261119T120200Z "$BIN" backup > "$BASE/backup-mtime.log"
 grep -q 'unchanged' "$BASE/backup-mtime.log" || fail "mtime-only change should be unchanged"
 
@@ -254,7 +282,7 @@ printf '%s\n' "$diff_out" | grep -q '~	home	client/app/.env	changed' || fail "di
 
 # Newer local file is kept unless --force.
 printf '%s\n' "newer-local-value" > "$PROJ/client/app/.env.local"
-touch -d @2000000000 "$PROJ/client/app/.env.local" 2> /dev/null || touch -t 203301010000 "$PROJ/client/app/.env.local"
+set_mtime 2000000000 "$PROJ/client/app/.env.local"
 restore_skip="$("$BIN" restore --path client/app/.env.local)"
 printf '%s\n' "$restore_skip" | grep -q 'newer-local' || fail "restore should skip a newer file"
 grep -q 'newer-local-value' "$PROJ/client/app/.env.local" || fail "newer file was overwritten"
@@ -269,7 +297,7 @@ find "$PROJ/client/app" -name '.env.local.env-backup-bak-*' | grep -q . || fail 
 printf '%s\n' "space-mutated" > "$PROJ/my project/.env"
 printf '%s\n' "app-mutated" > "$PROJ/client/app/.env.fallback"
 # Make them older than the snapshot so restore will replace them.
-touch -d @1000 "$PROJ/my project/.env" "$PROJ/client/app/.env.fallback" 2> /dev/null || true
+set_mtime 1000 "$PROJ/my project/.env" "$PROJ/client/app/.env.fallback"
 "$BIN" restore --path "my project" > "$BASE/restore-space.txt"
 grep -q 'space' "$PROJ/my project/.env" || fail "spaced path was not restored"
 grep -q 'app-mutated' "$PROJ/client/app/.env.fallback" || fail "subset restore touched another file"
