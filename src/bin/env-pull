@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Deprecated. The Cryptomator vault pull is now an age restore.
+
+printf '%s\n' "env-pull is deprecated. Use: env-backup restore" >&2
+exec "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/env-backup" restore "$@"

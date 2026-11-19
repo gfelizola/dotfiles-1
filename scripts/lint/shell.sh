@@ -12,9 +12,15 @@ find \
     src/os \
     src/shell \
     scripts/**/*.sh \
+    src/bin/env-backup \
+    src/bin/env-backup-lib.sh \
+    src/bin/env-push \
+    src/bin/env-pull \
+    src/bin/env-status \
     -type f \
     ! -path 'src/**/*.applescript' \
     ! -path 'src/**/*.terminal' \
+    ! -path 'src/**/*.plist.template' \
     ! -path 'src/shell/curlrc' \
     ! -path 'src/shell/inputrc' \
     -exec shellcheck \

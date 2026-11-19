@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Encrypted backups of secret env files.
+# The daily job does not need the private key; restore does.
+
+set -eo pipefail
+umask 077
+
+_self=${BASH_SOURCE[0]}
+
+while [ -L "$_self" ]; do
+    _dir=$(dirname "$_self")
+    _target=$(readlink "$_self")
+
+    case "$_target" in
+        /*)
+            _self="$_target"
+            ;;
+        *)
+            _self="$_dir/$_target"
+            ;;
+    esac
+done
+
+ENV_BACKUP_BIN_DIR=$(cd "$(dirname "$_self")" && pwd)
+export ENV_BACKUP_BIN_DIR
+
+# shellcheck source=src/bin/env-backup-lib.sh
+. "$ENV_BACKUP_BIN_DIR/env-backup-lib.sh"
+
+trap env_backup_cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+ENV_BACKUP_TMP_REGISTRY=$(mktemp "${TMPDIR:-/tmp}/env-backup-registry.XXXXXX")
+command chmod 600 "$ENV_BACKUP_TMP_REGISTRY"
+
+env_backup_configure
+env_backup_cmd "$@"

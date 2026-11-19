@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Deprecated. The Cryptomator vault push is now an age backup.
+
+printf '%s\n' "env-push is deprecated. Use: env-backup backup" >&2
+exec "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/env-backup" backup "$@"
