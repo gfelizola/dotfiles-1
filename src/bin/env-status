@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Deprecated. The Cryptomator vault status is now env-backup status.
+
+printf '%s\n' "env-status is deprecated. Use: env-backup status" >&2
+exec "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/env-backup" status "$@"

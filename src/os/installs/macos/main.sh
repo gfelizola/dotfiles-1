@@ -20,6 +20,7 @@ reload_local_shell_configs
 ./image_tools.sh
 ./misc.sh
 ./misc_tools.sh
+./env_backup.sh
 ./../npm.sh
 ./tmux.sh
 ./video_tools.sh
