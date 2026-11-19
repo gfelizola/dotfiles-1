@@ -60,25 +60,20 @@ alias t="tmux"
 alias dev="npm run dev"
 alias bd="bun dev"
 alias br="bun run"
-alias dev="bun run deploy"
+alias bx="bunx"
+alias gt="git tag"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Projects disk. Set PROJECTS_DIR in ~/.bash.local to override.
-alias pp='cd "${PROJECTS_DIR:-/Volumes/ADATA-GFELIZOLA/projects}"'
+# Projects disk. Same path as the owner's alias; PROJECTS_DIR overrides it.
+alias pp='cd "${PROJECTS_DIR:-/Volumes/ADATA-GFELIZOLA/projects/}"'
 
 # Open the current directory in Cursor.
-alias cs='cursor .'
+alias cs="cursor ."
 
-# Prisma helpers. Confirm these match the owner's shell.
-alias pmd='bunx prisma migrate dev'
-alias pg='bunx prisma generate'
-alias pmdg='bunx prisma migrate dev && bunx prisma generate'
-
-# `gt` is used on the owner's machine, but the audit did not record
-# its body. It is intentionally undefined so it cannot shadow Graphite
-# or another `gt` binary.
-# alias gt=""
+alias pmd="npx prisma migrate deploy"
+alias pg="npx prisma generate"
+alias pmdg="npx prisma migrate deploy && npx prisma generate"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
