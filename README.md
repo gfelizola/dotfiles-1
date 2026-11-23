@@ -20,6 +20,7 @@ a new environment (for more specific local needs I use the
     * [🔁 `~/.gitconfig.local`](#gitconfiglocal)
     * [⌨️  `~/.vimrc.local`](#vimrclocal)
 * [↕️  Update](#update)
+* [🔐 Env backups](#env-backups)
 * [📑 License](#license)
 
 ## Setup
@@ -172,6 +173,120 @@ To update the dotfiles you can either run the [setup script][setup]
 or, if you want to update one particular part, run the appropriate
 [os script](src/os).
 
+## Env backups
+
+`env-backup` encrypts secret env files from `~/projects` and, when
+it is mounted, `/Volumes/ADATA-GFELIZOLA/projects`. Snapshots go to
+Google Drive (`My Drive/Backups/dotenv` for
+`gfelizola@gmail.com`). Override that folder with `ENV_BACKUP_DIR`.
+
+Encryption uses [age] and only the public recipient, so the daily
+job does not need the private key. The private key stays in the
+macOS login keychain.
+
+### Create a key
+
+The macOS install step installs `age` and the LaunchAgent. Create
+the key once:
+
+```shell
+env-backup setup
+```
+
+Put the printed identity in a password manager. Do not put it in
+this repo or in Google Drive. The public recipient is recorded in
+`~/.config/env-backup/recipient`.
+
+Check what would be copied, then write a snapshot:
+
+```shell
+env-backup backup --dry-run
+env-backup backup
+env-backup status
+```
+
+On another Mac, install `age` and import the saved identity:
+
+```shell
+env-backup import-identity
+env-backup restore
+```
+
+`env-backup export-identity` prints the key again. Do not redirect
+it into the repo or into Drive.
+
+### What is included
+
+Any file whose name matches `.env*` or `.dev.vars` is included,
+including names such as `.env.local`, `.env.fallback`,
+`.env.evidence`, `.env.emulator`, and `.env.bkp`. Templates are
+skipped: `*.example`, `*.sample`, `*.template`, and `*.dist`.
+Directories such as `node_modules`, `.git`, `dist`, and `build`
+are not walked. A `.env` that git already tracks is still backed
+up. Extra patterns can be added in
+`~/.config/env-backup/include-names`, `exclude-names`, and
+`prune-dirs`.
+
+Paths are stored relative to each root, under `home` or `adata`,
+so the two trees do not collide. If the external disk is absent,
+the job logs that and exits. It will not publish a snapshot that
+drops files the last backup already had from that disk.
+
+Unchanged content does not create a new snapshot. Retention keeps
+the newest 3 snapshots, 14 distinct days, and 12 distinct months.
+
+### Restore
+
+```shell
+env-backup list
+env-backup show
+env-backup diff
+env-backup restore --dry-run
+env-backup restore --path some/project
+env-backup restore --force
+```
+
+A newer local file is left alone unless `--force` is passed.
+Before an older file is replaced, the current copy is saved beside
+it with an `.env-backup-bak-` suffix, which later backups ignore.
+
+### Schedule
+
+```shell
+env-backup install-agent
+env-backup uninstall-agent
+```
+
+The agent runs at 09:15, when any volume mounts, and when
+`/Volumes/ADATA-GFELIZOLA` changes. It calls Homebrew bash when
+that exists. Logs:
+
+```text
+~/Library/Logs/env-backup.log
+~/Library/Logs/env-backup.err.log
+```
+
+If Google Drive or the ADATA disk is not there, the run exits 0
+after one log line.
+
+### Old Cryptomator vault
+
+`env-push`, `env-pull`, and `env-status` are deprecated wrappers
+around `env-backup`. If the old `/Volumes/DotEnvs` volume is
+mounted, this previews a one-time copy back into the projects and
+then performs it:
+
+```shell
+env-backup migrate
+env-backup migrate --apply
+```
+
+### Test
+
+```shell
+./scripts/test/env-backup.sh
+```
+
 ## License
 
 The code is available under the [MIT license][license].
@@ -193,6 +308,7 @@ The code is available under the [MIT license][license].
 [license]: LICENSE.txt
 [preferences macos]: src/os/preferences/macos
 [preferences ubuntu]: src/os/preferences/ubuntu
+[age]: https://github.com/FiloSottile/age
 [repo]: https://github.com/alrra
 [setup script]: https://github.com/alrra/dotfiles/blob/main/src/os/setup.sh#L3
 [setup]: src/os/setup.sh

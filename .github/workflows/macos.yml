@@ -19,6 +19,12 @@ jobs:
       - name: Lint shell files
         run: ./scripts/lint/shell.sh
 
+      - name: Install age
+        run: brew install age
+
+      - name: Test env backups
+        run: ./scripts/test/env-backup.sh
+
       - name: Lint Markdown files
         run: ./scripts/lint/markdown.sh
 

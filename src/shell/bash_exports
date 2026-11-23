@@ -114,3 +114,16 @@ fi
 # Make Python use UTF-8 encoding for output to stdin/stdout/stderr.
 
 export PYTHONIOENCODING="UTF-8"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Encrypted dotenv backups (`env-backup`).
+#
+# Defaults:
+#   roots: ~/projects and /Volumes/ADATA-GFELIZOLA/projects
+#   destination: Google Drive / My Drive / Backups / dotenv
+#
+# The age private key is not exported. It lives in the login keychain.
+# Override the destination here if the Drive path changes:
+#
+# export ENV_BACKUP_DIR="$HOME/Library/CloudStorage/GoogleDrive-gfelizola@gmail.com/My Drive/Backups/dotenv"
