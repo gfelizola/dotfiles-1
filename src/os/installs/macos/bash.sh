@@ -57,7 +57,8 @@ main() {
 
     brew_install "Bash Completion 2" "bash-completion@2"
     brew_install "Starship" "starship"
-    brew_install "Warp.dev" "warp"
+    # Warp terminal cask. Installed here so it is not repeated under dev.sh.
+    brew_install "Warp.dev" "warp" "--cask"
 }
 
 main

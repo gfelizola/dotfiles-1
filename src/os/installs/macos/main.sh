@@ -13,6 +13,7 @@ reload_local_shell_configs
 ./bash.sh
 
 ./git.sh
+./dev.sh
 ./../volta.sh
 ./browsers.sh
 ./compression_tools.sh
@@ -27,3 +28,4 @@ reload_local_shell_configs
 ./../vim.sh
 ./vscode.sh
 ./web_font_tools.sh
+./optional_clis.sh
